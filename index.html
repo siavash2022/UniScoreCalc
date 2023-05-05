@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ماشین حساب معدل</title>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/bootstrap-table.min.js"></script>
+
+    <link rel="stylesheet" href="assets/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+    <style>
+      th >.th-inner {
+        display: flex;
+      }
+      .delete_row{
+        display: flex;
+      }
+    </style>
+
+</head>
+<body>
+
+    <div class="m-3">
+      <form id="formScore" action="">
+        <table dir="rtl" id="add_table" class="table" data-toggle="table" data-mobile-responsive="true">
+          <thead>
+            <tr>
+              <th>نام درس</th>
+              <th>نمره</th>
+              <th>واحد</th>
+              <th>
+                <div class="">
+                  <button type="button" class="btn btn-outline-success" id="add_row" class="add"> افزودن
+                  </button>
+                  <button type="submit" style="margin: inline end -49px !important;" id="calculator" class="btn btn-outline-primary"> محاسبه
+                  </button>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <input type="text" class="form-control">
+              </td>
+              <td>
+                <input required min="0"  max="20" name="score" type="number" step="any" class="form-control">
+              </td>
+              <td>
+                <input required min="1" max="5"  name="factor" type="number" class="form-control">
+              </td>
+              <td>
+                <button class="btn btn-outline-danger delete_row">حذف</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+      </div>
+
+      <script>
+
+        $(document).ready(function() {
+
+        $('#add_row').click(function() {
+          //Add row
+          row = '';
+          row += '<tr><td><input type="text" class="form-control"></td><td ><input required type="number" min="0" max="20" step="any" name="score"  class="form-control"></td><td><input required type="number" min="1" max="5"  name="factor" type="number" class="form-control"></td>';
+          row += '<td><button class="btn btn-outline-danger delete_row">حذف</button></td></tr>';
+          $("tbody").append(row);
+        })
+
+        // delete row
+        $("#add_table").on('click', '.delete_row', function() {
+          $(this).closest('tr').remove();
+        });
+
+
+        const form = document.querySelector('#formScore');
+
+        // checks the validity of the form
+        form.addEventListener('submit', (event) => {
+          if (form.checkValidity()) {
+          // prevents the page from reloading
+          event.preventDefault();
+
+          // get all input elements with the name "score"
+          const inputsScore = document.querySelectorAll('input[name="score"]');
+
+          // loop through the inputs and extract their values
+          const scores = [];
+          inputsScore.forEach(input => {
+            scores.push(input.value);
+          });
+
+          // log the array of values
+          console.log(scores);
+
+
+          // get all input elements with the name "factor"
+          const inputsFactor = document.querySelectorAll('input[name="factor"]');
+
+          // loop through the inputs and extract their values
+          const factors = [];
+          inputsFactor.forEach(input => {
+            factors.push(input.value);
+          });
+
+          // log the array of values
+          console.log(factors);
+
+
+          // get sum of scores multiplied by their factors
+          let sumScores = 0;
+          scores.forEach(score => {
+            let index = scores.indexOf(score);
+            sumScores += score * factors[index]
+          });
+
+          console.log('sum',sumScores)
+
+          // calculats the sum of the factors
+          let sumFactors = 0;
+          for (let i = 0; i < factors.length; i++) {
+            sumFactors += Number(factors[i]);
+          }
+
+          console.log("The sum factor is:", sumFactors);
+
+
+          let result = sumScores / sumFactors;
+
+          console.log('result',result)
+
+          alert("معدل شما: "+ result.toFixed(2));
+
+
+          }
+        });
+
+
+        });
+
+
+        // getting scores by jquery
+        // var scores = $("input[name='score']").map(function(){return $(this).val();}).get();
+
+        // let sumfac = factors.reduce((a,b) => Number(a)+Number(b) , 0)
+
+        </script>
+</body>
+</html>
+
+
+
+
+
