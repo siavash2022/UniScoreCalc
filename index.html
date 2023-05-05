@@ -116,9 +116,10 @@
 
           // get sum of scores multiplied by their factors
           let sumScores = 0;
+          let counter = 0;
           scores.forEach(score => {
-            let index = scores.indexOf(score);
-            sumScores += score * factors[index]
+            sumScores += Number(score) * Number(factors[counter])
+            counter ++;
           });
 
           console.log('sum',sumScores)
